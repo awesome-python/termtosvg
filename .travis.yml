@@ -10,21 +10,22 @@ jobs:
         - python: 3.8-dev
           dist: xenial
           sudo: true
-        - python: nightly
-          dist: xenial
-          sudo: true
+        - os: osx
+          language: generic
 
-matrix:
-    allow_failures:
-        - python: nightly
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip3 install --upgrade pip setuptools wheel; fi
 
 install:
-    - pip install -U -e .[dev]
-    - pip freeze
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo pip3 install -U -e .[dev]; else pip install -U -e .[dev]; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then python3 --version && pip3 freeze; else python --version && pip freeze; fi
 
 script:
     - coverage run --branch --source termtosvg -m unittest -v
+
+after_success:
     - coverage report
+    - pylint --extension-pkg-whitelist lxml termtosvg/*.py
 
 notifications:
   email: false

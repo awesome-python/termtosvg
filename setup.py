@@ -4,9 +4,10 @@ from setuptools import setup
 
 setup(
     name='termtosvg',
-    version='0.4.0',
-    licence='BSD 3-clause license',
+    version='0.7.0',
+    license='BSD 3-clause license',
     author='Nicolas Bedos',
+    author_email='nicolas.bedos@gmail.com',
     description='Record terminal sessions as SVG animations',
     long_description='A Linux terminal recorder written in Python '
                      'which renders your command line sessions as '
@@ -16,6 +17,8 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS',
+        'Operating System :: POSIX :: BSD',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',
@@ -24,35 +27,21 @@ setup(
         'Topic :: System :: Shells',
         'Topic :: Terminals'
     ],
-    packages=['termtosvg'],
-    package_data={
-        '': [
-            'LICENSE'
-        ],
-        'termtosvg': [
-            'data/LICENSE.md',
-            'data/termtosvg.ini',
-        ]
-    },
-    py_modules=[
-        'termtosvg.anim',
-        'termtosvg.asciicast',
-        'termtosvg.config',
-        'termtosvg.term',
+    python_requires='>=3.5',
+    packages=[
+        'termtosvg',
+        'termtosvg.tests'
     ],
-    entry_points={
-        'console_scripts': [
-            'termtosvg=termtosvg.__main__:main'
-        ]
-    },
+    scripts=['scripts/termtosvg'],
+    include_package_data=True,
     install_requires=[
+        'lxml',
         'pyte',
-        'setuptools',
-        'svgwrite'
     ],
     extras_require={
         'dev': [
             'coverage',
+            'pylint',
             'twine',
             'wheel',
         ]
